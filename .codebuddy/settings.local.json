@@ -1,0 +1,8 @@
+{
+  "enabledPlugins": {
+    "financial-analysis@cb_teams_marketplace": true,
+    "investment-banking@cb_teams_marketplace": true,
+    "a-share-analysis@cb_teams_marketplace": true,
+    "modern-webapp@cb_teams_marketplace": true
+  }
+}
