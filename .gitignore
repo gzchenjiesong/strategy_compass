@@ -37,3 +37,7 @@ deploy/ssl/
 
 # Uploads
 uploads/
+
+# Local workspace
+.workbuddy/
+.vite/
