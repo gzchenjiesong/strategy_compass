@@ -1,0 +1,67 @@
+<template>
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 px-4">
+    <div class="w-full max-w-sm">
+      <!-- Logo & Brand -->
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white shadow-sm mb-4">
+          <span class="text-4xl">🧭</span>
+        </div>
+        <h1 class="text-2xl font-bold text-gray-800 tracking-tight">策略罗盘</h1>
+        <p class="text-sm text-gray-400 mt-1.5">Strategy Compass</p>
+        <p class="text-xs text-gray-400 mt-3 leading-relaxed">
+          个人投资者的多策略投资管理平台<br>
+          <span class="text-gray-300">网格 · 定投 · 资产配置 · 红利管理</span>
+        </p>
+      </div>
+
+      <!-- Login Card -->
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-4">
+        <!-- 微信登录 -->
+        <button
+          @click="wechatLogin"
+          class="w-full py-3 bg-green-500 text-white rounded-xl font-medium text-sm hover:bg-green-600 transition-colors flex items-center justify-center gap-2 shadow-sm shadow-green-100"
+        >
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 01.213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 00.167-.054l1.903-1.114a.864.864 0 01.717-.098 10.16 10.16 0 002.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178A1.17 1.17 0 014.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178 1.17 1.17 0 01-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 01.598.082l1.584.926a.272.272 0 00.139.045c.133 0 .241-.108.241-.243 0-.06-.023-.118-.039-.177l-.326-1.233a.49.49 0 01.177-.554C23.083 18.44 24 16.821 24 14.987c0-3.37-3.108-6.129-7.062-6.129zm-2.652 3.099c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.982.969-.982z"/>
+          </svg>
+          微信登录
+        </button>
+
+        <div class="relative flex items-center justify-center">
+          <div class="border-t border-gray-100 flex-1"></div>
+          <span class="px-3 text-[11px] text-gray-300 uppercase tracking-wider">或</span>
+          <div class="border-t border-gray-100 flex-1"></div>
+        </div>
+
+        <!-- 开发者快速登录 -->
+        <button
+          @click="devLogin"
+          class="w-full py-3 bg-gray-800 text-white rounded-xl font-medium text-sm hover:bg-gray-700 transition-colors"
+        >
+          🔑 开发者登录（Mock 账号）
+        </button>
+      </div>
+
+      <!-- Footer -->
+      <p class="text-[11px] text-gray-300 text-center mt-6">
+        本地验收模式 · v0.1.0 · 服务器采购中
+      </p>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+function devLogin() {
+  const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE4MDk3NjgxMzksImlhdCI6MTc3ODIzMjEzOX0.9o5pfPqDtwtUyVWcw1PI-vLr7zu_MwWBZdjd5EzScs8'
+  localStorage.setItem('token', mockToken)
+  router.replace('/market')
+}
+
+function wechatLogin() {
+  alert('微信登录需配置公众号授权，当前仅支持开发者登录')
+}
+</script>

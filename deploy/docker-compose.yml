@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: sc-backend
+    restart: unless-stopped
+    environment:
+      - FLASK_ENV=production
+      - DATABASE_URL=sqlite:///data/strategy_compass.db
+      - SECRET_KEY=${SECRET_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - WECHAT_APPID=${WECHAT_APPID}
+      - WECHAT_SECRET=${WECHAT_SECRET}
+      - JIN10_API_KEY=${JIN10_API_KEY}
+    volumes:
+      - ../backend/data:/app/data
+      - ../backend/logs:/app/logs
+    networks:
+      - sc-network
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: sc-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - sc-network
+
+  scheduler:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: sc-scheduler
+    restart: unless-stopped
+    command: python -m app.tasks.scheduler
+    environment:
+      - FLASK_ENV=production
+      - DATABASE_URL=sqlite:///data/strategy_compass.db
+      - SECRET_KEY=${SECRET_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+    volumes:
+      - ../backend/data:/app/data
+      - ../backend/logs:/app/logs
+    networks:
+      - sc-network
+
+networks:
+  sc-network:
+    driver: bridge
