@@ -333,3 +333,125 @@ crontab -e
 | JIN10_API_KEY | 是 | 金十数据 API Key |
 | FLASK_ENV | 否 | `development` / `production` |
 | LOG_LEVEL | 否 | `DEBUG` / `INFO` / `WARNING` / `ERROR` |
+
+## 10. 本地开发部署（补充自 local-deployment.md）
+
+### 10.1 快速启动本地环境
+
+```bash
+# 后端（热重载）
+cd backend
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+flask run --reload
+
+# 前端（热重载）
+cd frontend
+npm install
+npm run dev
+```
+
+### 10.2 本地环境变量模板
+
+创建 `backend/.env.local`：
+
+```bash
+FLASK_ENV=development
+DATABASE_URL=sqlite:///data/strategy_compass_dev.db
+SECRET_KEY=dev-secret-key
+WECHAT_APP_ID=
+WECHAT_APP_SECRET=
+JIN10_API_KEY=
+LOG_LEVEL=DEBUG
+```
+
+### 10.3 本地 vs 生产差异
+
+| 项 | 本地开发 | 生产部署 |
+|--|---------|---------|
+| 数据库 | SQLite（本地文件） | SQLite（Docker 卷） |
+| 后端启动 | `flask run --reload` | Gunicorn 4 workers |
+| 前端服务 | Vite dev server | Nginx 静态文件 |
+| 环境变量 | `.env.local` | `.env`（服务器） |
+| 日志输出 | 控制台 | 文件 + Docker logs |
+
+### 10.4 本地数据初始化
+
+```bash
+# 初始化数据库
+python scripts/init_db.py
+
+# 拉取核心指数历史数据（开发数据集，可精简）
+python scripts/init_core_indices.py --limit 100
+```
+
+## 10. 本地开发部署（补充自 local-deployment.md）
+
+### 10.1 快速启动本地环境
+
+```bash
+# 后端（热重载）
+cd backend
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+flask run --reload
+
+# 前端（热重载）
+cd frontend
+npm install
+npm run dev
+```
+
+### 10.2 本地环境变量模板
+
+创建 `backend/.env.local`：
+
+```bash
+FLASK_ENV=development
+DATABASE_URL=sqlite:///data/strategy_compass_dev.db
+SECRET_KEY=dev-secret-key
+WECHAT_APP_ID=
+WECHAT_APP_SECRET=
+JIN10_API_KEY=
+LOG_LEVEL=DEBUG
+```
+
+### 10.3 本地 vs 生产差异
+
+| 项 | 本地开发 | 生产部署 |
+|--|---------|---------|
+| 数据库 | SQLite（本地文件） | SQLite（Docker 卷） |
+| 后端启动 | `flask run --reload` | Gunicorn 4 workers |
+| 前端服务 | Vite dev server | Nginx 静态文件 |
+| 环境变量 | `.env.local` | `.env`（服务器） |
+| 日志输出 | 控制台 | 文件 + Docker logs |
+
+### 10.4 本地数据初始化
+
+```bash
+# 初始化数据库
+python scripts/init_db.py
+
+# 拉取核心指数历史数据（开发数据集，可精简）
+python scripts/init_core_indices.py --limit 100
+```
+
+### 10.5 Mock Token 机制（开发环境）
+
+开发环境使用 mock token 绕过微信登录：
+
+- `LoginView.vue`: 用户点击「开发者登录」时写入 `localStorage`
+- `request.ts`: 开发环境自动注入 token 到请求头
+- 后端 `auth_service.py`: 验证 JWT token 的签名和过期时间
+
+更新 mock token：
+
+```bash
+# 自动生成新 token（365天有效期）
+./scripts/update-mock-token.sh
+
+# 检查当前 token 是否过期
+./scripts/update-mock-token.sh --check
+```

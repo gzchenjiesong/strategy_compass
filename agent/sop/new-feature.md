@@ -82,6 +82,14 @@ Model（数据层）→ Service（业务逻辑层）→ Route（API 路由层）
 ### 8. 文档更新
 
 - [ ] 更新对应模块设计文档（如有接口/表变更）
+- [ ] **设计文档同步检查**：运行 `./scripts/check-design-sync.sh` 验证设计文档与代码一致性
+
+> **Trigger rules for automated checks**
+> Run `./scripts/check-design-sync.sh` (or equivalent) at these points:
+> 1. **Before commit** — if any design doc (`docs/modules/*.md`) was modified in the working tree.
+> 2. **Before PR** — as a required step in the PR checklist; fail the PR if drift is detected.
+> 3. **After design changes** — immediately after updating a module design doc, before writing or modifying code that implements the change.
+> 4. **Nightly / CI** — optional scheduled run to catch drift introduced by hot-fixes.
 - [ ] 更新 `agent/memory-bank/progress.md` 标记完成
 - [ ] 更新 `agent/memory-bank/active-context.md` 更新当前焦点
 - [ ] 写开发日志 `agent/memory/YYYY-MM-DD.md`
