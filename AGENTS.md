@@ -18,11 +18,31 @@
 5. 读 `agent/memory/YYYY-MM-DD.md`（今天的日期）— 最近发生了什么
 
 ### 第四步：按需读取（任务相关时才读）
-- 要写代码 → 读 `agent/specs/coding-style.md`
-- 要写 API → 读 `agent/specs/api-design.md`
-- 要做新功能 → 读 `agent/sop/new-feature.md`
-- 要修 Bug → 读 `agent/sop/bug-fix.md`
-- 要部署 → 读 `agent/skills/deployment.md`
+
+| 你要做什么 | 读什么 |
+|-----------|--------|
+| 写后端代码 | `agent/specs/backend-architecture.md` + `agent/specs/coding-style.md` |
+| 写前端代码 | `agent/specs/frontend-architecture.md` + `agent/specs/coding-style.md` |
+| 写 API | `agent/specs/api-design.md` |
+| 操作数据库 | `agent/specs/database.md` |
+| 做新功能 | `agent/sop/new-feature.md` |
+| 修 Bug | `agent/sop/bug-fix.md` |
+| 代码审查 | `agent/sop/code-review-standard.md` + `agent/specs/code-style-guide.md` |
+| 安全审查 | `agent/sop/security-review.md` + `agent/specs/security-coding-standard.md` |
+| 部署 | `agent/sop/deployment.md` |
+| 设计新模块 | `agent/specs/api-design.md` + `agent/specs/database.md` |
+
+### 第五步：子代理角色（多角色协作时）
+
+如果当前任务需要特定角色视角，读取对应角色定义：
+- 产品决策 → `agent/sub-agents/product-manager.md`
+- 技术设计 → `agent/sub-agents/architect.md`
+- 编码实现 → `agent/sub-agents/coder.md`
+- 质量审查 → `agent/sub-agents/reviewer.md`
+
+启动模板参考：`agent/sub-agents/startup-templates.md`
+
+---
 
 ## 行为规范
 
@@ -32,13 +52,14 @@
 - 不要在根目录随意创建文件
 
 ### 代码质量
-- 遵守 `agent/specs/coding-style.md` 中的规范
-- 新功能必须写对应的文档（`docs/features/`）
-- API 变更必须更新 `docs/api.md`
+- 遵守 `agent/specs/coding-style.md` 和 `agent/specs/code-style-guide.md` 中的规范
+- 编码前阅读 `agent/specs/security-coding-standard.md`
+- 新功能必须写对应的需求文档（`docs/features/`）
+- API 变更必须更新对应模块的 `docs/designs/module-N/api.md`
 
 ### 测试
-- 写完功能后，必须运行 `./scripts/api-check.sh` 验证
-- 验证结果写入 `build/test-results/`
+- 写完功能后，运行 `./scripts/api-check.sh` 验证
+- 运行 `./scripts/run-tests.sh` 执行测试套件
 - 不要在没有验证的情况下说"完成了"
 
 ### 记忆维护
@@ -62,6 +83,8 @@
 - **文件即归属**：Tolaria 不锁数据，你的文件就是文件夹里的 .md，不需要导出
 
 > Tolaria 工作方式：用户用 GUI 审阅/浏览 .md 文件，Agent 直接读写同一份文件。两边对同一份文件操作，不冲突。
+
+---
 
 ## 禁止行为
 
